@@ -1,8 +1,9 @@
 import React from 'react';
+import { Text, View } from 'react-native';
 import Users from '../components/Users';
-const HomeScreen = () => {
+const HomeScreen = props => {
     return (
-        <Users />
+        <Users navigation={props.navigation} />
     );
 };
 HomeScreen.navigationOptions = {

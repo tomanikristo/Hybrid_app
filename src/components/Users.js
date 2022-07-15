@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-// import User from '../screens/user';
-import axios from 'axios'
-// import buildQuery from 'odata-query'
-import User from '../screens/user';
-
-
+import User from './User';
 const Users = props => {
     const [isLoading, setLoading] = useState(false);
     const [users, setUsers] = useState([]);
     getUsers = () => {
-        fetch('https://services.odata.org/V4/OData/OData.svc/Products')
+        fetch('https://jsonplaceholder.typicode.com/users/')
             .then((response) => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
-            })
             .then((json) => setUsers(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -29,8 +21,21 @@ const Users = props => {
                 (
                     <FlatList
                         data={users}
-                        keyExtractor={({ ID }) => ID.toString()}
-                        renderItem={({ item }) => <Text>{item.value.ID}  </Text>}
+                        keyExtractor={({ id }) => id.toString()}
+                        renderItem={
+                            ({ item }) =>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        props.navigation.navigate('User', {
+                                            id: item.id
+                                        })
+                                    }
+                                >
+                                    <View>
+                                        <User user={item} />
+                                    </View>
+                                </TouchableOpacity>
+                        }
                     />
                 )}
         </View>
